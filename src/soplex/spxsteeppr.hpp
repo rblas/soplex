@@ -275,9 +275,9 @@ int SPxSteepPR<R>::buildBestPriceVectorLeave(R feastol)
       for(int i = 0; i < prices.size(); ++i)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(prices[i].val));
+         assert(!spxIsNan(prices[i].val));
          // inf values indicate numerical troubles, which should be handled beforehand
-         assert(!isinf(prices[i].val));
+         assert(!spxIsInf(prices[i].val));
       }
    }
 
@@ -597,9 +597,9 @@ SPxId SPxSteepPR<R>::buildBestPriceVectorEnterDim(R& best, R feastol)
       for(int i = 0; i < prices.size(); ++i)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(prices[i].val));
+         assert(!spxIsNan(prices[i].val));
          // inf values indicate numerical troubles, which should be handled beforehand
-         assert(!isinf(prices[i].val));
+         assert(!spxIsInf(prices[i].val));
       }
    }
 
@@ -670,9 +670,9 @@ SPxId SPxSteepPR<R>::buildBestPriceVectorEnterCoDim(R& best, R feastol)
       for(int i = 0; i < pricesCo.size(); ++i)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(pricesCo[i].val));
+         assert(!spxIsNan(pricesCo[i].val));
          // inf values indicate numerical troubles, which should be handled beforehand
-         assert(!isinf(pricesCo[i].val));
+         assert(!spxIsInf(pricesCo[i].val));
       }
    }
 

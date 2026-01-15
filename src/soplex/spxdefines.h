@@ -1143,8 +1143,7 @@ inline Real spxNextafter(Real x, Real y)
 }
 #endif
 
-/// returns |a|
-template <>
+/// returns |a| - overload for Real (double) using fabs for efficiency
 inline Real spxAbs(Real a)
 {
    return fabs(a);
@@ -1169,6 +1168,40 @@ inline Real maxAbs(Real a, Real b)
 inline Real relDiff(Real a, Real b)
 {
    return (a - b) / (maxAbs(a, b) > 1.0 ? maxAbs(a, b) : 1.0);
+}
+
+/// Check if value is NaN - for standard floating point types
+template <class R>
+inline typename std::enable_if<std::is_floating_point<R>::value, bool>::type
+spxIsNan(const R& val)
+{
+   return std::isnan(val);
+}
+
+/// Check if value is NaN - for non-floating point types (including Boost rational)
+/// Returns false since these types cannot represent NaN
+template <class R>
+inline typename std::enable_if<!std::is_floating_point<R>::value, bool>::type
+spxIsNan(const R&)
+{
+   return false;
+}
+
+/// Check if value is infinite - for standard floating point types
+template <class R>
+inline typename std::enable_if<std::is_floating_point<R>::value, bool>::type
+spxIsInf(const R& val)
+{
+   return std::isinf(val);
+}
+
+/// Check if value is infinite - for non-floating point types
+/// Returns false since these types cannot represent infinity
+template <class R>
+inline typename std::enable_if<!std::is_floating_point<R>::value, bool>::type
+spxIsInf(const R&)
+{
+   return false;
 }
 
 /// safe version of snprintf
@@ -1229,6 +1262,18 @@ inline number<gmp_rational, eto> frexp(number<gmp_rational, eto>, int* exp)
    assert(false);
    return number<gmp_rational>();
 }
+
+// sqrt is not well-defined for rationals (result is generally irrational)
+// This provides an approximation for components like geometric scaling that
+// require sqrt. Uses a high-precision float intermediate (500 decimal digits)
+// to minimize precision loss when approximating the irrational result.
+template<boost::multiprecision::expression_template_option eto>
+inline number<gmp_rational, eto> sqrt(number<gmp_rational, eto> r)
+{
+   mpf_float_500 f(r);
+   mpf_float_500 s = boost::multiprecision::sqrt(f);
+   return number<gmp_rational, eto>(s);
+}
 #else
 inline cpp_rational ldexp(cpp_rational r, int exp)
 {
@@ -1240,6 +1285,15 @@ inline cpp_rational frexp(cpp_rational, int* exp)
 {
    assert(false);
    return cpp_rational();
+}
+
+// sqrt is not well-defined for rationals (result is generally irrational)
+// Uses a high-precision float intermediate (500 decimal digits)
+inline cpp_rational sqrt(cpp_rational r)
+{
+   boost::multiprecision::number<boost::multiprecision::cpp_bin_float<500>> f(r);
+   boost::multiprecision::number<boost::multiprecision::cpp_bin_float<500>> s = boost::multiprecision::sqrt(f);
+   return cpp_rational(s);
 }
 #endif
 

@@ -2731,9 +2731,9 @@ static void MPSwriteRecord(
    const char*    indicator,
    const char*    name,
    const char*    name1  = nullptr,
-   const R     value1 = 0.0,
+   const R     value1 = R(0),
    const char*    name2  = nullptr,
-   const R     value2 = 0.0
+   const R     value2 = R(0)
 )
 {
    char buf[81];

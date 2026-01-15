@@ -858,14 +858,9 @@ public:
    /// Checks whether the array contains any nan entries.
    bool hasNaNs() const
    {
-      if(!std::is_floating_point<R>::value)
-      {
-         return false;
-      }
-
       for(int i = 0; i < size(); ++i)
       {
-         if(isnan(m_elem[i].val))
+         if(spxIsNan(m_elem[i].val))
          {
             return true;
          }
@@ -874,17 +869,12 @@ public:
       return false;
    }
 
-   /// Checks whether the array contains any NaN entries.
+   /// Checks whether the array contains any infinity entries.
    bool hasInfs() const
    {
-      if(!std::is_floating_point<R>::value)
-      {
-         return false;
-      }
-
       for(int i = 0; i < size(); ++i)
       {
-         if(isinf(m_elem[i].val))
+         if(spxIsInf(m_elem[i].val))
          {
             return true;
          }

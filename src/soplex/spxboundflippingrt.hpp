@@ -704,9 +704,9 @@ SPxId SPxBoundFlippingRT<R>::selectEnter(
       for(int i = 0; i < breakpoints.size(); ++i)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(breakpoints[i].val));
+         assert(!spxIsNan(breakpoints[i].val));
          // the breakpoint formulas should not produce inf values
-         assert(!isinf(breakpoints[i].val));
+         assert(!spxIsInf(breakpoints[i].val));
       }
    }
 
@@ -1072,9 +1072,9 @@ int SPxBoundFlippingRT<R>::selectLeave(
       for(int i = 0; i < breakpoints.size(); ++i)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(breakpoints[i].val));
+         assert(!spxIsNan(breakpoints[i].val));
          // the breakpoint formulas should not produce inf values
-         assert(!isinf(breakpoints[i].val));
+         assert(!spxIsInf(breakpoints[i].val));
       }
    }
 

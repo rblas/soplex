@@ -196,9 +196,9 @@ static void initPrefs(
       for(int l = 0; l < row.size(); ++l)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(compare.weight[l]));
+         assert(!spxIsNan(compare.weight[l]));
          // the weight formulas should not produce inf values
-         assert(!isinf(compare.weight[l]));
+         assert(!spxIsInf(compare.weight[l]));
       }
    }
 
@@ -218,9 +218,9 @@ static void initPrefs(
       for(int l = 0; l < col.size(); ++l)
       {
          // nan values cannot be handled in sorting
-         assert(!isnan(compare.weight[l]));
+         assert(!spxIsNan(compare.weight[l]));
          // the weight formulas should not produce inf values
-         assert(!isinf(compare.weight[l]));
+         assert(!spxIsInf(compare.weight[l]));
       }
    }
 
